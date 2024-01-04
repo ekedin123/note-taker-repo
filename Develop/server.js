@@ -35,3 +35,18 @@ app.post("/api/notes", (req, res) => {
   fs.writeFileSync("./db/db.json", JSON.stringify(database));
   res.json(database);
 });
+
+//delete button
+app.delete("/api/notes/:id", (req, res) => {
+  let database = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  let newDatabase = database.filter((notes) => {
+    return notes.id !== req.params.id;
+  });
+  fs.writeFileSync("./db/db.json", JSON.stringify(newDatabase));
+  res.json(newDatabase);
+});
+
+//callback for running app
+app.listen(PORT, () =>
+  console.log(`App listening at http://localhost:${PORT}`)
+);
