@@ -24,3 +24,14 @@ app.get("/api/notes", (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
+
+// posts notes
+app.post("/api/notes", (req, res) => {
+  let database = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  let newPost = req.body;
+  let noteList = database.length.toString();
+  newPost.id = noteList;
+  database.push(newPost);
+  fs.writeFileSync("./db/db.json", JSON.stringify(database));
+  res.json(database);
+});
